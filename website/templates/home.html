@@ -1,0 +1,75 @@
+ {% extends "base.html"%}
+ {% block title %}Home{% endblock %}
+ {% block content %}  <div class="container mt-4">
+
+    <h2>My Notes </h2>
+    <p>Write and save your notes below.</p>
+
+    <form method="POST" action="{{ url_for('views.home') }}">
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Note Title</label>
+            <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                placeholder="Enter your note title"
+                maxlength="200"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">Note Content</label>
+            <textarea
+                class="form-control"
+                id="content"
+                name="content"
+                rows="6"
+                placeholder="Write your note here..."
+                required
+            ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Save Note
+        </button>
+
+    </form>
+
+    <hr class="my-4">
+
+    <h3>Saved Notes</h3>
+    {% if notes %}
+        <div class="list-group mb-4">
+            {% for note in notes %}
+                <article class="list-group-item">
+                    <h5 class="mb-2">{{ note.title }}</h5>
+                    <p class="mb-2" style="white-space: pre-wrap;">{{ note.content }}</p>
+                    <small class="text-muted">{{ note.created_at }}</small>
+                    <div class="mt-3 d-flex">
+                        <a class="btn btn-sm btn-primary mr-2"
+                           href="{{ url_for('views.edit_note', note_id=note.note_id) }}">
+                            Edit
+                        </a>
+                        <form method="POST"
+                              action="{{ url_for('views.remove_note', note_id=note.note_id) }}"
+                              onsubmit="return confirm('Delete this note?');">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">You haven't saved any notes yet.</p>
+    {% endif %}
+
+</div>
+
+
+ 
+ {% endblock %}

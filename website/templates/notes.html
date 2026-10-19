@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}My Notes{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>My Notes 📝</h2>
+    <p>Write and save your notes below.</p>
+
+    <form method="POST" action="{{ url_for('views.notes') }}">
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Note Title</label>
+            <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                placeholder="Enter your note title"
+                maxlength="200"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">Note Content</label>
+            <textarea
+                class="form-control"
+                id="content"
+                name="content"
+                rows="6"
+                placeholder="Write your note here..."
+                required
+            ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Save Note
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Note{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Note</h2>
+
+    <form method="POST" action="{{ url_for('views.edit_note', note_id=note.note_id) }}">
+        <div class="mb-3">
+            <label for="title" class="form-label">Note Title</label>
+            <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                maxlength="200"
+                value="{{ note.title }}"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">Note Content</label>
+            <textarea
+                class="form-control"
+                id="content"
+                name="content"
+                rows="6"
+                required
+            >{{ note.content }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="{{ url_for('views.home') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
