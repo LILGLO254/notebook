@@ -1,19 +1,28 @@
-
+import os
 import mysql.connector
 from mysql.connector import Error
 from flask_login import UserMixin
 
 
+import os
+import mysql.connector
+
 def create_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="gloria2005",
-        database="flask_app",
-        charset="utf8"
+    ca_path = os.path.join(
+        os.path.dirname(__file__),
+        "ca.pem"
     )
 
-
+    return mysql.connector.connect(
+        host=os.environ["MYSQL_HOST"],
+        port=int(os.environ.get("MYSQL_PORT", "17619")),
+        user=os.environ["MYSQL_USER"],
+        password=os.environ["MYSQL_PASSWORD"],
+        database=os.environ.get("MYSQL_DATABASE", "defaultdb"),
+        charset="utf8mb4",
+        ssl_ca=ca_path,
+        ssl_verify_cert=True
+    )
 class User(UserMixin):
     def __init__(self, user_id, username, email):
         self.id = str(user_id)
